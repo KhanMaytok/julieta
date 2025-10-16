@@ -1,4 +1,4 @@
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookies } from '@vueuse/integrations/useCookies';
 
 export function useAuthToken() {
   const cookies = useCookies(['access_token', 'refresh_token'])
@@ -12,8 +12,8 @@ export function useAuthToken() {
   }
 
   const removeTokens = () => {
-    cookies.remove('access_token')
-    cookies.remove('refresh_token')
+    cookies.remove('access_token', { path: '/' })
+    cookies.remove('refresh_token', { path: '/' })
   }
 
   return { getAccess, getRefresh, setTokens, removeTokens }

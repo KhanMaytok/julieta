@@ -18,7 +18,7 @@ import {
   <SidebarProvider>
     <AppSidebar />
     <SidebarInset>
-      <slot />
+      <RouterView />
     </SidebarInset>
   </SidebarProvider>
 </template>

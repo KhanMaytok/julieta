@@ -8,7 +8,8 @@ import { GalleryVerticalEnd } from "lucide-vue-next";
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { LoginSchema } from "@/app/modules/auth/models/auth.types"
 import { useLogin } from "@/app/modules/auth/composables/useLogin"
-import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+
 
 const props = defineProps<{
   class?: HTMLAttributes["class"]
@@ -33,19 +34,14 @@ cookies.set('access_token', 'abc123', { path: '/', maxAge: 3600 })
 
 const form = reactive(LoginSchema.getDefault())
 
-const { mutate, isPending, isError, error, data } = useLogin()
+const { mutate, isPending } = useLogin()
+const router = useRouter()
 
 function submit() {
   mutate(form, {
-    onSuccess: (res) => {
-      ElMessage.success(`Bienvenido ${res.username}`)
-      console.log(data);
-      console.log(isError);
-      console.log(error);
-    },
-    onError: (err: any) => {
-      ElMessage.error(err.message || 'Error al iniciar sesión')
-    },
+    onSuccess: () => {
+      router.replace({ name: 'web' })
+    }
   })
 }
 </script>

@@ -27,7 +27,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/shared/components/ui/sidebar'
+} from '@/shared/components/ui/sidebar';
+import { useAuthToken } from "@/app/modules/auth/composables/useAuthToken";
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const props = defineProps<{
   user: {
@@ -36,10 +40,17 @@ const props = defineProps<{
     avatar: string
   }
 }>()
+const { removeTokens, getAccess } = useAuthToken();
 
 console.log(props.user)
+const { isMobile } = useSidebar();
+function logout() {
+  console.log('Removiendo tokens y redirigiendo al login')
+  removeTokens();
+  console.log('Tokens removidos:', getAccess());
+  router.replace({ name: 'login' })
+}
 
-const { isMobile } = useSidebar()
 </script>
 
 <template>
@@ -107,7 +118,7 @@ const { isMobile } = useSidebar()
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem @click="logout">
             <LogOut />
             Log out
           </DropdownMenuItem>

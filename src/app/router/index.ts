@@ -37,6 +37,18 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/establishments/',
+    component: DefaultLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "create",
+        name: 'establishment_create',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentCreate.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({

@@ -37,6 +37,18 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/core/establishments/',
+    component: DefaultLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "create",
+        name: 'establishment_create',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentCreate.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({
@@ -44,7 +56,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const token = getAccess();
   const isAuthenticated = !!token;
 

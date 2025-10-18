@@ -14,15 +14,15 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.90.3
         version: 5.90.3(vue@3.5.22(typescript@5.9.3))
-      '@types/yup':
-        specifier: ^0.32.0
-        version: 0.32.0
       '@vueuse/core':
         specifier: ^13.9.0
         version: 13.9.0(vue@3.5.22(typescript@5.9.3))
       '@vueuse/integrations':
         specifier: ^13.9.0
         version: 13.9.0(async-validator@4.2.5)(axios@1.12.2)(universal-cookie@8.0.1)(vue@3.5.22(typescript@5.9.3))
+      async-validator:
+        specifier: ^4.2.5
+        version: 4.2.5
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -557,10 +557,6 @@ packages:
 
   '@types/web-bluetooth@0.0.21':
     resolution: {integrity: sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==}
-
-  '@types/yup@0.32.0':
-    resolution: {integrity: sha512-Gr2lllWTDxGVYHgWfL8szjdedERpNgm44L9BDL2cmcHG7Bfd6taEpiW3ayMFLaYvlJr/6bFXDJdh6L406AGlFg==}
-    deprecated: This is a stub types definition. yup provides its own type definitions, so you do not need this installed.
 
   '@vitejs/plugin-vue@6.0.1':
     resolution: {integrity: sha512-+MaE752hU0wfPFJEUAIxqw18+20euHHdxVtMvbFcOEpjEyfqXH/5DCoTHiVJ0J29EhTJdoTkjEv5YBKU9dnoTw==}
@@ -1527,10 +1523,6 @@ snapshots:
   '@types/web-bluetooth@0.0.16': {}
 
   '@types/web-bluetooth@0.0.21': {}
-
-  '@types/yup@0.32.0':
-    dependencies:
-      yup: 1.7.1
 
   '@vitejs/plugin-vue@6.0.1(vite@7.1.10(@types/node@24.7.2)(jiti@2.6.1)(lightningcss@1.30.1))(vue@3.5.22(typescript@5.9.3))':
     dependencies:

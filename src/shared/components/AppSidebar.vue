@@ -55,6 +55,18 @@ const data = {
     },
   ],
   navMain: [
+     {
+      title: "Mantenimientos",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: true,
+      items: [
+        {
+          title: "Establecimientos",
+          url: "/core/establishments/list",
+        },
+      ],
+    },
     {
       title: "Playground",
       url: "#",

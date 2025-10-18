@@ -37,6 +37,33 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/core/establishments/',
+    component: DefaultLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "create",
+        name: 'establishments_create',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentCreateEdit.vue'),
+      },
+      {
+        path: "list",
+        name: 'establishments_list',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentList.vue'),
+      },
+      {
+        path: "edit/:id",
+        name: 'establishments_edit',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentCreateEdit.vue'),
+      },
+      {
+        path: "test",
+        name: 'establishments_test',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentTest.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({
@@ -44,7 +71,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const token = getAccess();
   const isAuthenticated = !!token;
 

@@ -20,6 +20,7 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { useEnvironment } from '@/app/modules/common/composables/useEnvironment'
 import { useEstablishment } from '@/app/modules/core/composables/useEstablishment'
 import { ElMessage } from 'element-plus'
+import SatMain from "@/shared/components/SatMain.vue"
 
 
 const ruleFormRef = ref<FormInstance>()
@@ -36,22 +37,17 @@ const { create } = useEstablishment()
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   try {
-    const valid = await formEl.validate();
-    if (valid) {
-      const form: EstablishmentCreate = { ...ruleForm }
-      form["department"] = ruleForm.location[0]
-      form["province"] = ruleForm.location[1]
-      form["district"] = ruleForm.location[2]
-      create.mutate(form, {
-        onSuccess: () => {
-          ElMessage.success('Establecimiento creado correctamente');
-          formEl.resetFields();
-        },
-        onError: (error: any) => {
-          ElMessage.error(error?.message || 'Error al crear establecimiento');
-        }
-      })
-    }
+    const form: any = { ...ruleForm }
+    create.mutate(form, {
+      onSuccess: () => {
+        ElMessage.success('Establecimiento creado correctamente');
+        formEl.resetFields();
+      },
+      onError: (error: any) => {
+        ElMessage.error(error?.message || 'Error al crear establecimiento');
+      }
+    })
+
   } catch (error: any) {
     ElMessage.error(error?.message || 'Error de validación');
   }
@@ -67,7 +63,7 @@ const getEnvironments = () => {
   console.log('Fetching environments...');
   const { data } = useEnvironment();
   watch(data, (val) => {
-    if (val && val.locations) {      
+    if (val && val.locations) {
       const mapLocations = (arr: any[]): CascaderOption[] => arr.map(lvl1 => ({
         label: lvl1.name,
         value: lvl1.id,
@@ -105,56 +101,74 @@ onMounted(() => {
     </div>
   </header>
 
-  <div class="flex-shrink-0 flex flex-col min-h-screen">
-    <div class="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
-      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto" class="form theme-form">
-        <div class="card-body">
-          <div class="row g-1">
-            <div class="col-md-4">
-              <el-form-item label="Nombre" prop="name">
-                <el-input v-model="ruleForm.name" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Dirección" prop="address">
-                <el-input v-model="ruleForm.address" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Email" prop="email">
-                <el-input v-model="ruleForm.email" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Teléfono" prop="telephone">
-                <el-input v-model="ruleForm.telephone" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Ubigeo" prop="location">
-                <el-cascader v-model="ruleForm.location" :options="locations" :clearable="true" filterable
-                  :filter-method="customFilterMethod" class="w-100" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Ventas por internet" prop="has_internet_sales">
-                <el-switch v-model="ruleForm.has_internet_sales" active-text="" inactive-text="" />
-              </el-form-item>
-            </div>
-            <div class="col-md-4">
-              <el-form-item label="Habilitar encomiendas" prop="has_courier">
-                <el-switch v-model="ruleForm.has_courier" active-text="" inactive-text="" />
-              </el-form-item>
-            </div>
+  <SatMain fixed>
+    <div class='space-y-0.5'>
+      <h1 class='text-2xl font-bold tracking-tight md:text-3xl'>
+        Settings
+      </h1>
+      <p class='text-muted-foreground'>
+        Manage your account settings and set e-mail preferences.
+      </p>
+    </div>
+    <Separator class='my-4 lg:my-6' />
+    <div class='flex flex-1 flex-col space-y-2 overflow-hidden md:space-y-2 lg:flex-row lg:space-y-0 lg:space-x-12'>
+      <p>hola hola</p>
+      <div class='flex w-full overflow-y-hidden p-1'>
+        <p>paraimbambita</p>
+      </div>
+    </div>
+  </SatMain>
+
+  <div class='flex flex-1 flex-col space-y-2 overflow-hidden md:space-y-2 lg:flex-row lg:space-y-0 lg:space-x-12'>
+    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto" class="form theme-form">
+      <div class="card-body">
+        <div class="row g-1">
+          <div class="col-md-4">
+            <el-form-item label="Nombre" prop="name">
+              <el-input v-model="ruleForm.name" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Dirección" prop="address">
+              <el-input v-model="ruleForm.address" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="ruleForm.email" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Teléfono" prop="telephone">
+              <el-input v-model="ruleForm.telephone" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Ubigeo" prop="location">
+              <el-cascader v-model="ruleForm.location" :options="locations" :clearable="true" filterable
+                :filter-method="customFilterMethod" class="w-100" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Ventas por internet" prop="has_internet_sales">
+              <el-switch v-model="ruleForm.has_internet_sales" active-text="" inactive-text="" />
+            </el-form-item>
+          </div>
+          <div class="col-md-4">
+            <el-form-item label="Habilitar encomiendas" prop="has_courier">
+              <el-switch v-model="ruleForm.has_courier" active-text="" inactive-text="" />
+            </el-form-item>
           </div>
         </div>
-        <div class="card-footer text-end">
-          <el-button type="primary" @click="submitForm(ruleFormRef)">
-            Crear
-          </el-button>
-          <el-button @click="resetForm(ruleFormRef)">Cancelar</el-button>
-        </div>
-      </el-form>
-    </div>
+      </div>
+      <div class="card-footer text-end">
+        <el-button type="primary" @click="submitForm(ruleFormRef)">
+          Crear
+        </el-button>
+        <el-button @click="resetForm(ruleFormRef)">Cancelar</el-button>
+      </div>
+    </el-form>
   </div>
+
+
 </template>

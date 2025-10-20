@@ -5,7 +5,6 @@ import type { InternalRuleItem } from 'async-validator'
 
 export const createYupValidator = (field: string, schema: yup.ObjectSchema<any>, item: any) => {
   return (_: InternalRuleItem, value: any, callback: (error?: string | Error) => void) => {
-    // Validate with the current value for the field
     Promise.resolve()
       .then(() => schema.validateAt(field, { ...item.value, [field]: value }))
       .then(() => callback())

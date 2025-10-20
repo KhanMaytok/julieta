@@ -13,7 +13,7 @@ import {
 } from "@/shared/components/ui/sidebar"
 
 
-import { establishmentFormSchema, type Establishment, type EstablishmentCreate } from '@/app/modules/core/models/Establishment.types'
+import { establishmentFormSchema, type Establishment } from '@/app/modules/core/models/Establishment.types'
 import { createFormRules } from '@/shared/utils/yupElementAdapter.ts'
 import type { CascaderNode, CascaderOption, FormInstance } from 'element-plus'
 import { onMounted, reactive, ref, watch } from 'vue'

@@ -16,12 +16,10 @@ import { useEstablishment } from "@/app/modules/core/composables/useEstablishmen
 import SatMain from "@/shared/components/SatMain.vue";
 import type { Establishment } from "@/app/modules/core/models/Establishment.types";
 
-// Estado de paginación reactivo
 const pageNumber = ref(1)
 const pageSize = ref(10)
 const { list } = useEstablishment()
 
-// Query reactiva: shallowRef para poder reasignar
 const query = list({ page: pageNumber, page_size: pageSize });
 const establishments = computed<Establishment[]>(() => query.data.value?.results || [])
 const total = computed<number>(() => query.data.value?.count || 0)
@@ -61,9 +59,7 @@ function handlePageChange(newPage: number) {
                 <Separator class="my-4" />
             </div>
 
-            <!-- 🔹 Contenido principal -->
             <div class="flex flex-col space-y-4 overflow-hidden">
-                <!-- Loading y error -->
                 <div v-if="query.isLoading.value" class="text-center text-gray-500 py-6">
                     Cargando establecimientos...
                 </div>
@@ -71,13 +67,11 @@ function handlePageChange(newPage: number) {
                     Error: {{ query.error.value?.message || 'No se pudo cargar.' }}
                 </div>
 
-                <!-- Tabla -->
                 <el-table v-else :data="establishments" border stripe class="w-full rounded-md shadow-sm">
                     <el-table-column prop="name" label="Nombre" />
                     <el-table-column prop="address" label="Dirección" />
                 </el-table>
 
-                <!-- Paginación -->
                 <div class="flex justify-end pt-2">
                     <Pagination v-slot="{ page }" :items-per-page="10" :total="total" :default-page="pageNumber">
                         <PaginationContent v-slot="{ items }">

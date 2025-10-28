@@ -3,6 +3,7 @@ import * as yup from 'yup'
 
 export const establishmentFormSchema = yup
   .object({
+    id: yup.number().optional().notRequired(),
     name: yup.string().required('El nombre es obligatorio').default(''),
     address: yup.string().required('La dirección es obligatoria').default(''),
     email: yup.string().email('Formato inválido').nullable().notRequired().default(null),

@@ -44,8 +44,13 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "create",
-        name: 'establishment_create',
+        name: 'establishments_create',
         component: () => import('@/app/modules/core/views/establishment/EstablishmentCreate.vue'),
+      },
+      {
+        path: "list",
+        name: 'establishments_list',
+        component: () => import('@/app/modules/core/views/establishment/EstablishmentList.vue'),
       },
     ],
   },

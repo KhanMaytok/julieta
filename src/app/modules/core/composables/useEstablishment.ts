@@ -1,12 +1,24 @@
+interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { api } from "@/shared/config/axios";
 import { type Establishment, type EstablishmentCreate, establishmentFormSchema } from "@/app/modules/core/models/Establishment.types";
-import {
-  normalizeError,
-  useApiErrorHandler,
-} from "@/shared/utils/useApiErrorHandler";
+import { normalizeError, useApiErrorHandler } from "@/shared/utils/useApiErrorHandler";
+import { type Ref } from "vue";
+import { unrefParams } from "@/shared/utils/composableHelpers";
 
 const { handleError } = useApiErrorHandler();
+
+interface EstablishmentListParams {
+  page?: Ref<number> | number;
+  page_size?: Ref<number> | number;
+  search?: Ref<string> | string | null;
+}
+
 
 // CREATE
 const EstablishmentCreateFn = async (payload: EstablishmentCreate): Promise<any> => {
@@ -19,17 +31,16 @@ const EstablishmentCreateFn = async (payload: EstablishmentCreate): Promise<any>
   }
 };
 
-// READ ALL
-const EstablishmentListFn = async (): Promise<Establishment[]> => {
+const EstablishmentListFn = async (params: EstablishmentListParams = {}): Promise<PaginatedResponse<Establishment>> => {
   try {
-    const { data } = await api.get("/core/establishments/");
-    return data;
+    const resolved = unrefParams({page: params.page ?? 1, page_size: params.page_size ?? 10,  search: params.search ?? null});
+    const { data } = await api.get("/core/establishments/", { params: resolved });
+    return data as PaginatedResponse<Establishment>;
   } catch (error: any) {
     throw normalizeError(error);
   }
 };
 
-// READ ONE
 const EstablishmentGetFn = async (id: string | number): Promise<Establishment> => {
   try {
     const { data } = await api.get(`/core/establishments/${id}/`);
@@ -72,11 +83,13 @@ export function useEstablishment() {
     },
   });
 
-  // READ ALL
-  const list = useQuery({
-    queryKey: ["establishments"],
-    queryFn: EstablishmentListFn,
-  });
+
+  // READ ALL (with pagination params)
+  const list = (params: EstablishmentListParams = {}) =>
+    useQuery({
+      queryKey: ["establishments", params],
+      queryFn: () => EstablishmentListFn(params),
+    });
 
   // READ ONE (returns a function to fetch by id)
   const get = (id: string | number) =>
